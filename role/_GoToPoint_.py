@@ -13,14 +13,16 @@ from krssg_ssl_msgs.msg import point_2d
 from krssg_ssl_msgs.msg import BeliefState
 from krssg_ssl_msgs.msg import gr_Commands
 from krssg_ssl_msgs.msg import gr_Robot_Command
+from krssg_ssl_msgs.srv import bsServer
 from utils.geometry import Vector2D
 from utils.config import *
 from krssg_ssl_msgs.srv import *
 from utils.functions import *
 import math
 
-import memcache
-shared = memcache.Client(BS_ADDRESS,debug=0)
+
+rospy.wait_for_service('bsServer',)
+getState = rospy.ServiceProxy('bsServer',bsServer)
 
 kub = None
 start_time = None
@@ -29,15 +31,15 @@ FLAG_move = False
 FLAG_turn = False
 rotate = 0
 
-rospy.wait_for_service('bsServer',)
-getState = rospy.ServiceProxy('bsServer',bsServer)
 # print("Importing _gotopoint_")
 FIRST_CALL = True
 vx_end,vy_end = 0,0
 
 #prev_state = shared.get('state')
-prev_state = None
-prev_state = getState(prev_state).stateB
+try:
+	prev_state = getState(prev_state).stateB
+except rospy.ServiceException, e:
+	print("chutiya")
 print(prev_state)
 def init(_kub,target,theta):
     global kub,GOAL_POINT,rotate,FLAG_turn,FLAG_move,FIRST_CALL

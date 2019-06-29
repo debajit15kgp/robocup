@@ -9,9 +9,10 @@ from krssg_ssl_msgs.msg import gr_Robot_Command
 from krssg_ssl_msgs.msg import point_SF
 from utils.config import *
 from utils.functions import *
-import memcache
-shared = memcache.Client(['127.0.0.1:11211'], debug = False)
-import sys
+from krssg_ssl_msgs.srv import bsServer
+
+rospy.wait_for_service('bsServer',)
+getState = rospy.ServiceProxy('bsServer',bsServer)
 
 # BOT_ID = int(sys.argv[1])
 # print "bot_id received",BOT_ID
@@ -49,7 +50,10 @@ def execute(start_time_,DIST_THRESH,data,avoid_ball=False):
     global awayPos, start_time, BState, kub, target
     print ("safsdf")
     # while FLAG_move:
-    data = shared.get('state')
+    try:
+	state = getState(state).stateB
+    except rospy.ServiceException, e:
+	print("chutiya")
     if FIRST_CALL:
         start_time = start_time_
         FIRST_CALL = False

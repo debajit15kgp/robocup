@@ -21,8 +21,6 @@ import math
 pub = rospy.Publisher('/grsim_data',gr_Commands,queue_size=1000)
 id_ = 0
 
-import memcache
-shared = memcache.Client(BS_ADDRESS,debug=0)
 
 state = None
 # state=shared.get('state')

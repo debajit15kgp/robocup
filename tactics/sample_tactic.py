@@ -10,8 +10,7 @@ import enum
 import logging
 from math import pi,atan2
 
-# import memcache
-# shared = memcache.Client(['127.0.0.1:11211'],debug=False)
+
 
 class SampleTactic(composite_behavior.CompositeBehavior):
 

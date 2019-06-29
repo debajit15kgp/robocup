@@ -18,8 +18,6 @@ import threading
 #pub = rospy.Publisher('/grsim_data',gr_Commands,queue_size=1000)
 
 
-import memcache
-shared = memcache.Client(['127.0.0.1:11211'],debug=True)
 
 
 def function1(id_,state,pub):
